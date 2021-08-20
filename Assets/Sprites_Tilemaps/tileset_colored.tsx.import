@@ -1,0 +1,20 @@
+[remap]
+
+importer="vnen.tiled_tileset_importer"
+type="TileSet"
+path="res://.import/tileset_colored.tsx-a04c723ba1874408f7a2397646b4c1aa.res"
+
+[deps]
+
+source_file="res://Assets/Sprites_Tilemaps/tileset_colored.tsx"
+dest_files=[ "res://.import/tileset_colored.tsx-a04c723ba1874408f7a2397646b4c1aa.res" ]
+
+[params]
+
+custom_properties=false
+tile_metadata=false
+image_flags=3
+embed_internal_images=false
+save_tiled_properties=false
+apply_offset=false
+post_import_script=""

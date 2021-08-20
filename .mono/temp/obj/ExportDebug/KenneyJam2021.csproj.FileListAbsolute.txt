@@ -1,0 +1,8 @@
+C:\Users\ethan\Documents\GitHub\KenneyJam2021\.mono\temp\bin\ExportDebug\KenneyJam2021.dll
+C:\Users\ethan\Documents\GitHub\KenneyJam2021\.mono\temp\bin\ExportDebug\KenneyJam2021.pdb
+C:\Users\ethan\Documents\GitHub\KenneyJam2021\.mono\temp\obj\ExportDebug\KenneyJam2021.csprojAssemblyReference.cache
+C:\Users\ethan\Documents\GitHub\KenneyJam2021\.mono\temp\obj\ExportDebug\KenneyJam2021.AssemblyInfoInputs.cache
+C:\Users\ethan\Documents\GitHub\KenneyJam2021\.mono\temp\obj\ExportDebug\KenneyJam2021.AssemblyInfo.cs
+C:\Users\ethan\Documents\GitHub\KenneyJam2021\.mono\temp\obj\ExportDebug\KenneyJam2021.csproj.CoreCompileInputs.cache
+C:\Users\ethan\Documents\GitHub\KenneyJam2021\.mono\temp\obj\ExportDebug\KenneyJam2021.dll
+C:\Users\ethan\Documents\GitHub\KenneyJam2021\.mono\temp\obj\ExportDebug\KenneyJam2021.pdb
