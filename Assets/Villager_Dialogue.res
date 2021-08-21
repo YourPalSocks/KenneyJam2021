@@ -16,8 +16,13 @@ I can feel it something's up with -v .
 --Silent
 ...
 You want something?
+I don't know anything.
 
 --Instigator
 I thought I saw something -a .
+You ever check out -a ?
 
 --Clueless
+Lovely day we're having Doctor -p .
+-v and I love going -a !
+Be careful out here Doctor -p .

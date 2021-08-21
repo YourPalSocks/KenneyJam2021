@@ -18,6 +18,8 @@ public class DialogueBox : TextureRect
     private string[] linesToRead;
     private bool oneTime = false;
 
+    public static bool textboxActive = false;
+
 
     public override void _Ready()
     {
@@ -32,6 +34,7 @@ public class DialogueBox : TextureRect
          * Villager dialogue is stored in its own text file
          */
         genericResponses.Add("Found ");
+        genericResponses.Add("Nothing to do now...");
 
         /*
          * Build villagerLines -- Open text file and read it to load into the list

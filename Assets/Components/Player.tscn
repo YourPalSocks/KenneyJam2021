@@ -1,18 +1,25 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Assets/Sprites_Tilemaps/colored_transparent_packed.png" type="Texture" id=1]
 [ext_resource path="res://src/Player.cs" type="Script" id=2]
+[ext_resource path="res://Assets/SFX/Axe_Swing.wav" type="AudioStream" id=3]
+[ext_resource path="res://Assets/SFX/DoctorSwap.wav" type="AudioStream" id=4]
+[ext_resource path="res://Assets/Components/Bullet.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Assets/SFX/GunShoot.wav" type="AudioStream" id=6]
+[ext_resource path="res://Assets/SFX/GunReload.wav" type="AudioStream" id=7]
+[ext_resource path="res://Assets/SFX/PlayerHit.wav" type="AudioStream" id=8]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 8 )
 
-[sub_resource type="CapsuleShape2D" id=2]
-radius = 6.29657
-height = 14.0727
+[sub_resource type="CircleShape2D" id=2]
+radius = 11.9751
 
 [node name="Player" type="KinematicBody2D"]
 scale = Vector2( 1.6, 1.6 )
 script = ExtResource( 2 )
+streams = [ ExtResource( 4 ), ExtResource( 3 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ]
+bulletPref = ExtResource( 5 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
@@ -40,13 +47,28 @@ texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 656, 128, 16, 16 )
 
-[node name="Area2D" type="Area2D" parent="Pivot/Axe"]
-monitorable = false
+[node name="Hit Effect" type="Sprite" parent="Pivot/Axe"]
+visible = false
+position = Vector2( 5.78718, 2.03498 )
+rotation = 1.67482
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 400, 176, 16, 16 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/Axe/Area2D"]
+[node name="Area2D" type="Area2D" parent="Pivot/Axe/Hit Effect"]
+position = Vector2( -2.41293, -1.80757 )
+monitoring = false
+monitorable = false
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/Axe/Hit Effect/Area2D"]
 position = Vector2( 3.82814, -0.413853 )
 rotation = 1.44564
 shape = SubResource( 2 )
+
+[node name="Axe Cooldown" type="Timer" parent="Pivot/Axe/Hit Effect"]
+wait_time = 0.2
 
 [node name="Gun" type="Sprite" parent="Pivot"]
 position = Vector2( 12.3646, 0 )
@@ -57,3 +79,13 @@ region_rect = Rect2( 592, 144, 16, 16 )
 
 [node name="Fire_Point" type="Position2D" parent="Pivot/Gun"]
 position = Vector2( 5.97404, -1.425 )
+
+[node name="Cooldown" type="Timer" parent="."]
+wait_time = 0.4
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+bus = "SFX"
+
+[connection signal="body_entered" from="Pivot/Axe/Hit Effect/Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="timeout" from="Pivot/Axe/Hit Effect/Axe Cooldown" to="." method="_on_Axe_Cooldown_timeout"]
+[connection signal="timeout" from="Cooldown" to="." method="_on_Cooldown_timeout"]

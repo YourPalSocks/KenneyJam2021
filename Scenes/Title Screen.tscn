@@ -77,9 +77,9 @@ margin_bottom = 399.0
 custom_fonts/font = SubResource( 2 )
 custom_constants/line_spacing = 10
 text = "> A deadly plague has awakened in the town of Thornmouth
-> 3 Doctors were sent to investigate and quarantine the infected.
-> Doctors Monroe, Sanders, and Archer need to use their various skills to contain the infected and come back alive.
->Make sure to watch your \"Blight meter\" in the corner, today is a terrible day to catch a cold. Give each Doctor time to rest."
+> 3 Doctors were sent to investigate and eliminate the infected, mutated man-eating bugs.
+> Doctors Monroe, Sanders, and Archer need to use their various skills to contain the infection and come back alive.
+>Make sure to watch your \"Blight meter\" in the corner, today is a terrible day to catch a cold. Rotate Doctors to let them recover."
 autowrap = true
 
 [node name="Instructions" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer"]
