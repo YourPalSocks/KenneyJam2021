@@ -1,0 +1,164 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Assets/Sprites_Tilemaps/FullScreen.png" type="Texture" id=1]
+[ext_resource path="res://ESTROG__.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://PixelOperator.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://addons/CRT Shader/crt_material.tres" type="Material" id=4]
+[ext_resource path="res://KenneyJamLogo.png" type="Texture" id=5]
+[ext_resource path="res://src/TitleScreen.cs" type="Script" id=6]
+[ext_resource path="res://Assets/SFX/N3-02.ogg" type="AudioStream" id=7]
+
+[sub_resource type="DynamicFont" id=1]
+size = 27
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 32
+font_data = ExtResource( 3 )
+
+[sub_resource type="StreamTexture" id=3]
+flags = 4
+load_path = "res://.import/SPS_IconName.png-193a5e5ae86a7a3ceac01d2dd6639769.stex"
+
+[node name="Title Screen" type="Node2D"]
+script = ExtResource( 6 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 400, 400 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enable = true
+
+[node name="BG" type="TextureRect" parent="CanvasLayer"]
+self_modulate = Color( 0, 0, 0, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 100
+custom_constants/margin_left = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer"]
+margin_left = 20.0
+margin_top = 100.0
+margin_right = 780.0
+margin_bottom = 800.0
+custom_constants/separation = 50
+
+[node name="Game Name" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+margin_right = 760.0
+margin_bottom = 23.0
+rect_pivot_offset = Vector2( 392.94, 10.9214 )
+custom_fonts/font = SubResource( 1 )
+text = "The Blight of Thornmouth"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Setup" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+self_modulate = Color( 1, 1, 1, 0.666667 )
+margin_top = 73.0
+margin_right = 760.0
+margin_bottom = 399.0
+custom_fonts/font = SubResource( 2 )
+custom_constants/line_spacing = 10
+text = "> A deadly plague has awakened in the town of Thornmouth
+> 3 Doctors were sent to investigate and quarantine the infected.
+> Doctors Monroe, Sanders, and Archer need to use their various skills to contain the infected and come back alive.
+>Make sure to watch your \"Blight meter\" in the corner, today is a terrible day to catch a cold. Give each Doctor time to rest."
+autowrap = true
+
+[node name="Instructions" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+self_modulate = Color( 1, 1, 1, 0.666667 )
+margin_top = 449.0
+margin_right = 760.0
+margin_bottom = 523.0
+custom_fonts/font = SubResource( 2 )
+custom_constants/line_spacing = 10
+text = "> Press 'E' to enter the town
+> Use WASD to move, mouse to aim, E to interact, click to use"
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -100.0
+rect_pivot_offset = Vector2( 400, 52 )
+custom_constants/margin_right = 10
+custom_constants/margin_left = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer2"]
+margin_left = 75.0
+margin_right = 725.0
+margin_bottom = 100.0
+rect_pivot_offset = Vector2( 1382, -20 )
+size_flags_horizontal = 4
+custom_constants/separation = 300
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SPS Logo" type="TextureRect" parent="CanvasLayer/MarginContainer2/VBoxContainer"]
+margin_right = 100.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 100, 100 )
+texture = SubResource( 3 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="KenneyJam" type="TextureRect" parent="CanvasLayer/MarginContainer2/VBoxContainer"]
+margin_left = 400.0
+margin_right = 650.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 250, 100 )
+texture = ExtResource( 5 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Black Screen" type="TextureRect" parent="CanvasLayer"]
+visible = false
+self_modulate = Color( 0, 0, 0, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+modulate = Color( 1, 1, 1, 0.439216 )
+material = ExtResource( 4 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+volume_db = -10.0
+autoplay = true
+bus = "Music"

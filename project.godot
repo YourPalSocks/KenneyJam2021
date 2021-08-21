@@ -11,7 +11,7 @@ config_version=4
 [application]
 
 config/name="KenneyJam2021"
-run/main_scene="res://Scenes/GameScene.tscn"
+run/main_scene="res://Scenes/Title Screen.tscn"
 config/icon="res://KenneyJamLogo.png"
 
 [debug]
@@ -25,11 +25,10 @@ window/size/height=800
 window/size/resizable=false
 window/stretch/mode="2d"
 window/stretch/aspect="keep_width"
-window/stretch/shrink=1.3
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/vnen.tiled_importer/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg", "res://addons/vnen.tiled_importer/plugin.cfg" )
 
 [global]
 
@@ -60,6 +59,11 @@ Right={
 Interact={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":69,"unicode":0,"echo":false,"script":null)
+ ]
+}
+"Doctor Move"={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
  ]
 }
 
