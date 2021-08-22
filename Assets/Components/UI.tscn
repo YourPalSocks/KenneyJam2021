@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Assets/Sprites_Tilemaps/Face_Joy.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Sprites_Tilemaps/BlightBar.png" type="Texture" id=2]
@@ -6,6 +6,11 @@
 [ext_resource path="res://src/UI.cs" type="Script" id=4]
 [ext_resource path="res://Assets/Sprites_Tilemaps/FullScreen.png" type="Texture" id=5]
 [ext_resource path="res://ESTROG__.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://PixelOperator.ttf" type="DynamicFontData" id=7]
+
+[sub_resource type="DynamicFont" id=5]
+size = 24
+font_data = ExtResource( 7 )
 
 [sub_resource type="Animation" id=1]
 resource_name = "Fade Out"
@@ -90,6 +95,34 @@ texture = ExtResource( 3 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
+}
+
+[node name="Doctor Name" type="Label" parent="."]
+self_modulate = Color( 1, 1, 1, 0.572549 )
+margin_left = 80.0
+margin_top = 72.0
+margin_right = 240.0
+margin_bottom = 97.0
+custom_fonts/font = SubResource( 5 )
+text = "Doctor Monroe"
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Evidence List" type="Label" parent="."]
+self_modulate = Color( 1, 1, 1, 0.572549 )
+anchor_left = 0.78
+anchor_right = 1.0
+anchor_bottom = 0.61875
+margin_bottom = 1.0
+custom_fonts/font = SubResource( 5 )
+text = "[EVIDENCE]"
+align = 1
+autowrap = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": true
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

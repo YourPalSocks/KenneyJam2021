@@ -9,6 +9,8 @@ public class UI : Control
     private TextureRect warningIcon;
     private AnimationPlayer anim;
     private Control pauseMenu;
+    private Label doctorLabel;
+    private Label evidenceList;
 
     //Component information
     private Texture[] faces = new Texture[4];
@@ -26,6 +28,9 @@ public class UI : Control
         anim = GetNode<AnimationPlayer>("AnimationPlayer");
         pauseMenu = GetNode<Control>("PauseMenu");
         pauseMenu.Visible = false;
+        doctorLabel = GetNode<Label>("Doctor Name");
+        evidenceList = GetNode<Label>("Evidence List");
+        evidenceList.Text = "";
 
         anim.Stop();
         warningIcon.Visible = false;
@@ -54,8 +59,6 @@ public class UI : Control
             }
             faces[i] = (Texture) ResourceLoader.Load("res://Assets/Sprites_Tilemaps/Face_" + exp + ".png");
         }
-
-        Input.SetMouseMode(Input.MouseMode.Confined);
     }
 
     public override void _Process(float delta)
@@ -65,14 +68,12 @@ public class UI : Control
         {
             if (GetTree().Paused)
             {
-                Input.SetMouseMode(Input.MouseMode.Confined);
                 pauseMenu.Visible = false;
                 GetTree().Paused = false;
 
             }
             else
             {
-                Input.SetMouseMode(Input.MouseMode.Visible);
                 pauseMenu.Visible = true;
                 GetTree().Paused = true;
             }
@@ -80,7 +81,6 @@ public class UI : Control
 
         if (GetTree().Paused && Input.IsActionJustPressed("Interact") && canPause)
         {
-            Input.SetMouseMode(Input.MouseMode.Visible);
             GetTree().Paused = false;
             GetTree().ChangeScene("res://Scenes/Title Screen.tscn"); //Main Menu
         }
@@ -92,6 +92,7 @@ public class UI : Control
         {
             return;
         }
+        doctorLabel.Text = "Doctor " + Player.curDoctor;
         //Chance blight bar's rect based on health and step
         blightBar.RectSize = new Vector2(health * BAR_STEP, 40);
         //Adjust face based on percentage
@@ -125,6 +126,11 @@ public class UI : Control
         }
     }
 
+    public void updateEvidence(string e)
+    {
+        evidenceList.Text += e + '\n';
+    }
+
     /*
      * This method deals with the nitty-gritty regarding moving to the End Screen
      * Information needed is stored in the StatsObserver and should be filled before this is called
@@ -135,7 +141,6 @@ public class UI : Control
         anim.Play("Fade Out");
         GetTree().Paused = true;
         canPause = false;
-        Input.SetMouseMode(Input.MouseMode.Visible);
     }
 
 
@@ -147,7 +152,6 @@ public class UI : Control
         if (anim_name.Equals("Fade Out"))
         {
             GetTree().Paused = false;
-            Input.SetMouseMode(Input.MouseMode.Visible);
             GetTree().ChangeScene("res://Scenes/EndScreen.tscn");
         }
     }

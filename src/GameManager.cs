@@ -490,6 +490,7 @@ public class GameManager : Node2D
 
     public void addToClueBank(Clue c)
     {
+        ui.updateEvidence(c.ToString());
         evidenceBank.Add(c);
     }
 }
