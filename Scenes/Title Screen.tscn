@@ -73,11 +73,11 @@ __meta__ = {
 self_modulate = Color( 1, 1, 1, 0.666667 )
 margin_top = 68.0
 margin_right = 760.0
-margin_bottom = 436.0
+margin_bottom = 478.0
 custom_fonts/font = SubResource( 2 )
 custom_constants/line_spacing = 10
 text = "> A deadly plague has awakened in the town of Thornmouth
-> 3 Doctors were sent to investigate and eliminate the infected, mutated man-eating bugs.
+> 3 Doctors were sent to investigate and eliminate the infected, mutated man-eating bugs who can disguise as people.
 > Doctors Monroe, Sanders, and Archer need to use their various skills to find and eliminate the disguised bugs.
 >Make sure to watch your \"Blight meter\" in the corner, today is a terrible day to catch a cold. Rotate Doctors to let them recover.
 > There are 2 Infected in disguise."
@@ -85,9 +85,9 @@ autowrap = true
 
 [node name="Instructions" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer"]
 self_modulate = Color( 1, 1, 1, 0.666667 )
-margin_top = 481.0
+margin_top = 523.0
 margin_right = 760.0
-margin_bottom = 597.0
+margin_bottom = 639.0
 custom_fonts/font = SubResource( 2 )
 custom_constants/line_spacing = 10
 text = "> Press 'E' to enter the town
@@ -107,18 +107,19 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer2"]
-margin_left = 75.0
-margin_right = 725.0
+margin_left = 10.0
+margin_right = 790.0
 margin_bottom = 100.0
 rect_pivot_offset = Vector2( 1382, -20 )
-size_flags_horizontal = 4
-custom_constants/separation = 300
+custom_constants/separation = 100
+alignment = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="SPS Logo" type="TextureRect" parent="CanvasLayer/MarginContainer2/VBoxContainer"]
-margin_right = 100.0
+margin_left = 330.0
+margin_right = 430.0
 margin_bottom = 100.0
 rect_min_size = Vector2( 100, 100 )
 texture = SubResource( 3 )
@@ -128,8 +129,8 @@ __meta__ = {
 }
 
 [node name="KenneyJam" type="TextureRect" parent="CanvasLayer/MarginContainer2/VBoxContainer"]
-margin_left = 400.0
-margin_right = 650.0
+margin_left = 530.0
+margin_right = 780.0
 margin_bottom = 100.0
 rect_min_size = Vector2( 250, 100 )
 texture = ExtResource( 5 )

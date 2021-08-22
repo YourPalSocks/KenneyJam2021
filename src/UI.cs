@@ -54,6 +54,8 @@ public class UI : Control
             }
             faces[i] = (Texture) ResourceLoader.Load("res://Assets/Sprites_Tilemaps/Face_" + exp + ".png");
         }
+
+        Input.SetMouseMode(Input.MouseMode.Confined);
     }
 
     public override void _Process(float delta)
@@ -63,12 +65,14 @@ public class UI : Control
         {
             if (GetTree().Paused)
             {
+                Input.SetMouseMode(Input.MouseMode.Confined);
                 pauseMenu.Visible = false;
                 GetTree().Paused = false;
 
             }
             else
             {
+                Input.SetMouseMode(Input.MouseMode.Visible);
                 pauseMenu.Visible = true;
                 GetTree().Paused = true;
             }
@@ -76,6 +80,7 @@ public class UI : Control
 
         if (GetTree().Paused && Input.IsActionJustPressed("Interact") && canPause)
         {
+            Input.SetMouseMode(Input.MouseMode.Visible);
             GetTree().Paused = false;
             GetTree().ChangeScene("res://Scenes/Title Screen.tscn"); //Main Menu
         }
@@ -130,6 +135,7 @@ public class UI : Control
         anim.Play("Fade Out");
         GetTree().Paused = true;
         canPause = false;
+        Input.SetMouseMode(Input.MouseMode.Visible);
     }
 
 
@@ -141,6 +147,7 @@ public class UI : Control
         if (anim_name.Equals("Fade Out"))
         {
             GetTree().Paused = false;
+            Input.SetMouseMode(Input.MouseMode.Visible);
             GetTree().ChangeScene("res://Scenes/EndScreen.tscn");
         }
     }

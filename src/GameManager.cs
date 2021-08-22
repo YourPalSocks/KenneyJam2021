@@ -188,7 +188,8 @@ public class GameManager : Node2D
     {
         //Spawn the mapIndex to create a map, then hand off and delete
         Node mapIndexInstance = MapIndex.Instance();
-        MapIndexEntry map = (MapIndexEntry) mapIndexInstance.GetChild(0);
+
+        MapIndexEntry map = (MapIndexEntry) mapIndexInstance.GetChild(rand.RandiRange(0, mapIndexInstance.GetChildCount() - 1));
         mapIndexInstance.RemoveChild(map);
         AddChild(map);
         map.Position = Vector2.Zero;
