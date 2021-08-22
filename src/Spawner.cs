@@ -31,7 +31,6 @@ public class Spawner : KinematicBody2D
         {
             return;
         }
-        //TODO: Sound
         Visible = false;
         audio.Play();
         t.Stop();
@@ -44,11 +43,13 @@ public class Spawner : KinematicBody2D
 
     public void _on_Timer_timeout()
     {
-        //Spawn enemy instance at spawn location
-        Enemy e = (Enemy)enemy.Instance();
-        e.onSpawn(false, VILLAGER_TYPE.MISC);
-        GetParent().AddChild(e);
-        e.Position = spawnPos.GlobalPosition;
+        if (!DialogueBox.textboxActive)
+        {
+            //Spawn enemy instance at spawn location
+            Enemy e = (Enemy)enemy.Instance();
+            e.onSpawn(false, VILLAGER_TYPE.MISC, spawnPos.GlobalPosition);
+            GetParent().AddChild(e);
+        }
         t.WaitTime = rand.RandiRange(20, 45);
         t.Start();
 

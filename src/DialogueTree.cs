@@ -65,4 +65,20 @@ public class DialogueTree
         return d[rand.RandiRange(0, d.Count - 1)];
     }
 
+    public DialogueOption getOptionByTagAndIndex(DIALOGUE_TAG t, int index)
+    {
+        List<DialogueOption> d = getOptionsByTag(t);
+        return d[index];
+    }
+
+    public int getDialogueIndex(DialogueOption n)
+    {
+        return lines.IndexOf(n);
+    }
+
+    public void updateDialogueOption(int i, DialogueOption n)
+    {
+        lines[i] = n;
+    }
+
 }

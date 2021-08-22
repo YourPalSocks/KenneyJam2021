@@ -9,11 +9,21 @@ public class Clue : NPC
 {
     private string clueName = "[CLUE ITEM]";
 
+    public void changeClueName(string s)
+    {
+        clueName = s;
+    }
+
+    public override string ToString()
+    {
+        return clueName;
+    }
+
     public override void onInteraction()
     {
         gameManager.getDialogueBox().activateTextBox(0, clueName + "!", true);
-        //TODO: Transmit data to GameManager for Monroe
         Player.showInteractionIcon = false;
+        gameManager.addToClueBank(this);
         QueueFree();
     }
 }

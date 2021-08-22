@@ -55,7 +55,7 @@ margin_left = 20.0
 margin_top = 100.0
 margin_right = 780.0
 margin_bottom = 800.0
-custom_constants/separation = 50
+custom_constants/separation = 45
 
 [node name="Game Name" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer"]
 margin_right = 760.0
@@ -71,26 +71,28 @@ __meta__ = {
 
 [node name="Setup" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer"]
 self_modulate = Color( 1, 1, 1, 0.666667 )
-margin_top = 73.0
+margin_top = 68.0
 margin_right = 760.0
-margin_bottom = 399.0
+margin_bottom = 436.0
 custom_fonts/font = SubResource( 2 )
 custom_constants/line_spacing = 10
 text = "> A deadly plague has awakened in the town of Thornmouth
 > 3 Doctors were sent to investigate and eliminate the infected, mutated man-eating bugs.
-> Doctors Monroe, Sanders, and Archer need to use their various skills to contain the infection and come back alive.
->Make sure to watch your \"Blight meter\" in the corner, today is a terrible day to catch a cold. Rotate Doctors to let them recover."
+> Doctors Monroe, Sanders, and Archer need to use their various skills to find and eliminate the disguised bugs.
+>Make sure to watch your \"Blight meter\" in the corner, today is a terrible day to catch a cold. Rotate Doctors to let them recover.
+> There are 2 Infected in disguise."
 autowrap = true
 
 [node name="Instructions" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer"]
 self_modulate = Color( 1, 1, 1, 0.666667 )
-margin_top = 449.0
+margin_top = 481.0
 margin_right = 760.0
-margin_bottom = 523.0
+margin_bottom = 597.0
 custom_fonts/font = SubResource( 2 )
 custom_constants/line_spacing = 10
 text = "> Press 'E' to enter the town
-> Use WASD to move, mouse to aim, E to interact, click to use"
+> Use WASD to move, mouse to aim, E to interact, left click to use, P to pause"
+autowrap = true
 
 [node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer"]
 anchor_top = 1.0

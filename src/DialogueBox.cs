@@ -110,6 +110,7 @@ public class DialogueBox : TextureRect
         filterDialogueLines(speaker, option.evidenceName, option.villagerName, ref linesToRead, option.area);
         oneTime = false;
         Player.showInteractionIcon = false;
+        textboxActive = true;
         isTyping = true;
     }
 
@@ -124,6 +125,7 @@ public class DialogueBox : TextureRect
 
         Player.showInteractionIcon = false;
         oneTime = playsOnce;
+        textboxActive = true;
         isTyping = true;
     }
 
@@ -143,6 +145,7 @@ public class DialogueBox : TextureRect
         {
             Player.showInteractionIcon = false;
         }
+        textboxActive = false;
     }
 
     /*

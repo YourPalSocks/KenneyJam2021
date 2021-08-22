@@ -21,7 +21,7 @@ public class Player : KinematicBody2D
     //Componenets
     private Sprite exclamation;
     private Node2D pivot;
-    private Sprite axe; //TODO: Axe and Gun classes
+    private Sprite axe;
     private Sprite gun;
     private Timer cooldown;
     private AudioStreamPlayer audio;
@@ -189,15 +189,14 @@ public class Player : KinematicBody2D
             nBullet.Rotation = ((Node2D)gun.GetParent()).Rotation;
             GetTree().Root.GetChild(0).AddChild(nBullet);
             cooldown.WaitTime = gunCooldown;
-            //TODO: Fire sound
             audio.Stream = streams[2];
             audio.Play();
         }
         else 
         {
+            //Reload gun
             cooldown.WaitTime = gunReloadTime;
             shotsLeft = 6;
-            //TODO: Reload Sound
             audio.Stream = streams[3];
             audio.Play();
         }
@@ -208,14 +207,12 @@ public class Player : KinematicBody2D
     {
         audio.Stream = streams[4];
         audio.Play();
-        //TODO: Play sound
         curHealth--;
-        //TODO: Check if dead
         if (curHealth <= 0)
         {
             gameManager.forceChangePlayer();
         }
-        //TODO: Update UI
+        //Update UI
         mUI.updateUI(curHealth);
     }
 

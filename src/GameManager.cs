@@ -10,6 +10,10 @@ public class GameManager : Node2D
     private DialogueBox dialogue;
     private Timer t;
     private Timer decayTimer;
+    private AudioStreamPlayer musicBox;
+    private UI ui;
+    [Export]
+    private AudioStream[] streams; //0 for ambiant theme, 1 for Villager reveal
 
     [Export]
     private PackedScene NPCBase;
@@ -21,12 +25,16 @@ public class GameManager : Node2D
     private PackedScene nestPref;
     [Export]
     private PackedScene exposedPref;
+    [Export]
+    private PackedScene cluePref;
+    private int clueSpot = 0;
 
     Color[] possibleColors = { Colors.LightGreen, Colors.LightPink, Colors.LightYellow, Colors.Lime, 
         Colors.MediumAquamarine, Colors.Olive, Colors.OrangeRed, Colors.HotPink, Colors.MediumTurquoise,
         Colors.Orange, Colors.PeachPuff, Colors.Salmon, Colors.Green, Colors.GreenYellow };
     private List<string> names = new List<string>();
     private List<string> jobs = new List<string>();
+    private List<string> jobEvidence = new List<string>();
     private List<NPC> npcs = new List<NPC>();
 
     readonly Vector2[] villagerRects = { new Vector2(384,0), new Vector2(448, 0), new Vector2(496, 16), 
@@ -46,30 +54,27 @@ public class GameManager : Node2D
     private List<NPC> activeBugs = new List<NPC>();
     private List<Vector2> nestSites = new List<Vector2>();
 
-    /*
-     * //Test TYPE_POOL
-     * private VILLAGER_TYPE[] TYPE_POOL = {
-     * 
-     * }; 
-     */
-
     int poolSpot = 0;
 
     private Player player;
 
-    private DoctorSwitch[] swaps = new DoctorSwitch[2];
+    private List<DoctorSwitch> swaps = new List<DoctorSwitch>();
     private RandomNumberGenerator rand = new RandomNumberGenerator();
 
-    private string[] evidenceBank;
- 
+    private List<Clue> evidenceBank = new List<Clue>();
 
+    private StatsObserver stats;
 
     public override void _Ready()
     {
         rand.Randomize();
         t = GetNode<Timer>("ActivityTimer");
         decayTimer = GetNode<Timer>("DecayTimer");
-        t.WaitTime = rand.RandiRange(40, 100);
+        musicBox = GetNode<AudioStreamPlayer>("Music");
+        stats = GetTree().Root.GetNode<StatsObserver>("StatsObserver");
+        ui = GetNode<UI>("CanvasLayer/UI");
+        musicBox.Stream = streams[0];
+        musicBox.Play();
 
         //Shuffle the pool
         Random random = new Random();
@@ -90,7 +95,10 @@ public class GameManager : Node2D
         string[] lines = f.GetAsText().Split('\n');
         foreach (string l in lines)
         {
-            names.Add(l);
+            if (!l.Empty())
+            {
+                names.Add(l);
+            }
         }
         f.Close();
         //Jobs too
@@ -98,10 +106,23 @@ public class GameManager : Node2D
         lines = f.GetAsText().Split('\n');
         foreach (string l in lines)
         {
-            jobs.Add(l);
+            if (!l.Empty())
+            {
+                jobs.Add(l);
+            }
         }
         f.Close();
 
+        //Get job evidence
+        f.Open("res://Assets/ClueOptions.res", File.ModeFlags.Read);
+        lines = f.GetAsText().Split('\n');
+        foreach (string l in lines)
+        {
+            if (!l.Empty())
+            {
+                jobEvidence.Add(l);
+            }
+        }
         //Spawn and prep a map
         buildMap();
         t.Start();
@@ -125,6 +146,7 @@ public class GameManager : Node2D
         if (n_npc.getPersonality() == VILLAGER_TYPE.Bug)
         {
             activeBugs.Add(n_npc);
+            stats.addBugName(n_npc.ToString());
         }
         //Position --TODO: Based on map stuff
         n_npc.Position = pos;
@@ -135,6 +157,27 @@ public class GameManager : Node2D
 
         npcs.Add(n_npc);
         AddChild(n_npc);
+        //Generate 2 clues for the bugs
+        if (n_npc.getPersonality() == VILLAGER_TYPE.Bug)
+        {
+            //First clue is related to the NPC's job
+            Clue jobClue = (Clue) cluePref.Instance();
+            string[] brokenString = n_npc.ToString().Split(" ");
+            jobClue.changeClueName(jobEvidence[jobs.IndexOf(brokenString[0])]);
+            //Spawn clue at interest point (already shuffled in MapIndexEntry
+            AddChild(jobClue);
+            jobClue.Position = map.spots[clueSpot].Position;
+            clueSpot++;
+
+            //Second clue contains a part of the bug's name
+            Clue nameClue = (Clue)cluePref.Instance();
+            nameClue.changeClueName(jobEvidence[jobEvidence.Count - 1] + " " + brokenString[1].Substring(0, 2));
+            //Spawn this clue
+            AddChild(nameClue);
+            nameClue.Position = map.spots[clueSpot].Position;
+            clueSpot++;
+
+        }
         poolSpot++;
     }
 
@@ -148,6 +191,7 @@ public class GameManager : Node2D
         MapIndexEntry map = (MapIndexEntry) mapIndexInstance.GetChild(0);
         mapIndexInstance.RemoveChild(map);
         AddChild(map);
+        map.Position = Vector2.Zero;
         ((Node2D)map).ZIndex -= 1;
         mapIndexInstance.QueueFree();
 
@@ -174,7 +218,7 @@ public class GameManager : Node2D
                         s.Position = map.GetNode<Node2D>(map.doctorPoint2).GlobalPosition;
                         break;
                 }
-                swaps[i] = s;
+                swaps.Add(s);
                 i++;
             }
         }
@@ -185,9 +229,7 @@ public class GameManager : Node2D
             nestSites.Add(v);
         }
 
-        //TODO: Spawn clues
-
-        //TODO: Spawn obstacles (Axe breakables)
+        //Spawn obstacles (Axe breakables)
         foreach (Vector2 p in map.breakables)
         {
             //Spawn a breakable at that location
@@ -212,6 +254,32 @@ public class GameManager : Node2D
         {
             n.getDialogue(n.getPersonality());
         }
+    }
+
+    /*
+     * Checks the evidenceBank and compares it to the NPC's job
+     * Returns either null (false) or with the relevant evidence
+     */
+    public string hasRelevantEvidence(NPC n)
+    {
+        string job = n.ToString().Split(" ")[0];
+        foreach (Clue c in evidenceBank)
+        {
+            if (c.ToString().Contains("A tag saying:"))
+            {
+                continue;
+            }
+            if (jobEvidence.IndexOf(c.ToString()) == jobs.IndexOf(job))
+            {
+                return c.ToString();
+            }
+        }
+        return null;
+    }
+
+    public int getEvidenceAmount()
+    {
+        return evidenceBank.Count;
     }
 
     public DialogueBox getDialogueBox()
@@ -268,16 +336,25 @@ public class GameManager : Node2D
         if (n.getPersonality() == VILLAGER_TYPE.Bug)
         {
             activeBugs.Remove(n);
+            //Change music back
+            musicBox.Stop();
+            musicBox.Stream = streams[0];
+            musicBox.Play();
+        }
+        else
+        {
+            stats.addDeadVillager();
         }
         n.RotationDegrees = 90;
 
         if (n.getPersonality() != VILLAGER_TYPE.Bug && !n.isNest && !n.isBugForm)
         {
-            //TODO: Lose
-            GD.Print("You lose");
+            //LOSE: Cannot kill innocents
+            stats.setEndScenario(3);
+            musicBox.Stop();
+            ui.goToEnding();
             return;
         }
-        GD.Print(activeBugs.Count);
         checkForWinOrLose();
     }
 
@@ -305,14 +382,20 @@ public class GameManager : Node2D
     {
         //Replace this villager with an Exposed bug
         Enemy exposedBug = (Enemy) exposedPref.Instance();
-        exposedBug.onSpawn(true, VILLAGER_TYPE.Bug);
+        exposedBug.onSpawn(true, VILLAGER_TYPE.Bug, n.Position);
         npcs[npcs.IndexOf(n)] = exposedBug;
         activeBugs[activeBugs.IndexOf(n)] = exposedBug;
         AddChild(exposedBug);
 
-        exposedBug.Position = n.Position;
+
         n.QueueFree();
 
+        //Change music
+        musicBox.Stop();
+        musicBox.Stream = streams[1];
+        musicBox.Play();
+
+        exposedBug.playAwakenSound();
     }
 
     public Player getPlayer()
@@ -327,27 +410,29 @@ public class GameManager : Node2D
      */
     public void forceChangePlayer()
     {
-        int firstAvailableDoctor = -1;
-        //Check if any doctors left
-        for (int i = 0; i < 2; i++)
+        //Check if no doctors left
+        if (swaps.Count < 1)
         {
-            if (swaps[i] != null)
+            stats.setEndScenario(4);
+            ui.goToEnding();
+        }
+        else
+        {
+            DoctorSwitch docS = swaps[0];
+            //Force a change, and move to the doctor swap
+            Vector2 swapPos = docS.Position;
+            docS.onInteraction();
+            player.Position = swapPos;
+
+            swaps.Remove(docS);
+            docS.QueueFree();
+            //Check if at last doctor and is Monroe, this is a lose condition
+            if (swaps.Count < 1 && Player.curDoctor == DOCTORS.Monroe)
             {
-                firstAvailableDoctor = i;
-                break;
+                stats.setEndScenario(1);
+                ui.goToEnding();
             }
         }
-        if (firstAvailableDoctor == -1)
-        {
-            GD.Print("No Doctors left, GAME OVER");
-        }
-        //Force a change, and move to the doctor swap
-        Vector2 swapPos = swaps[firstAvailableDoctor].Position;
-        swaps[firstAvailableDoctor].onInteraction();
-        player.Position = swapPos;
-
-        swaps[firstAvailableDoctor].QueueFree();
-
     }
 
     public void _on_ActivityTimer_timeout()
@@ -370,12 +455,16 @@ public class GameManager : Node2D
             sInst.Position = nestSites[i];
         }
         checkForWinOrLose();
-        t.WaitTime = rand.RandiRange(40, 100);
+        t.WaitTime = rand.RandiRange(60, 180);
         t.Start();
     }
 
     public void _on_DecayTimer_timeout()
     {
+        if (DialogueBox.textboxActive)
+        {
+            return;
+        }
         //Player should lose some health due to blight
         player.onHit();
     }
@@ -385,8 +474,21 @@ public class GameManager : Node2D
         //Check if no active bugs
         if (activeBugs.Count <= 0)
         {
-            //TODO: Win
-            GD.Print("You win");
+            //Win
+            stats.setEndScenario(0);
+            ui.goToEnding();
         }
+
+        //Check if only bugs are left
+        if (npcs.Count == activeBugs.Count)
+        {
+            stats.setEndScenario(2);
+            ui.goToEnding();
+        }
+    }
+
+    public void addToClueBank(Clue c)
+    {
+        evidenceBank.Add(c);
     }
 }

@@ -1,12 +1,29 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Assets/Sprites_Tilemaps/Face_Joy.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Sprites_Tilemaps/BlightBar.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Sprites_Tilemaps/Warning.png" type="Texture" id=3]
 [ext_resource path="res://src/UI.cs" type="Script" id=4]
+[ext_resource path="res://Assets/Sprites_Tilemaps/FullScreen.png" type="Texture" id=5]
+[ext_resource path="res://ESTROG__.ttf" type="DynamicFontData" id=6]
 
 [sub_resource type="Animation" id=1]
-resource_name = "Warning Icon"
+resource_name = "Fade Out"
+length = 1.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Black Screen:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
+}
+
+[sub_resource type="Animation" id=2]
 length = 1.2
 loop = true
 tracks/0/type = "value"
@@ -22,7 +39,16 @@ tracks/0/keys = {
 "values": [ true, false, true, false ]
 }
 
+[sub_resource type="DynamicFont" id=3]
+size = 48
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 35
+font_data = ExtResource( 6 )
+
 [node name="UI" type="Control"]
+pause_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 4 )
@@ -67,4 +93,60 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-"anims/Warning Icon" = SubResource( 1 )
+pause_mode = 2
+"anims/Fade Out" = SubResource( 1 )
+"anims/Warning Icon" = SubResource( 2 )
+
+[node name="PauseMenu" type="MarginContainer" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BG" type="TextureRect" parent="PauseMenu"]
+self_modulate = Color( 0, 0, 0, 0.341176 )
+margin_right = 800.0
+margin_bottom = 800.0
+texture = ExtResource( 5 )
+expand = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu"]
+margin_left = 114.0
+margin_top = 323.0
+margin_right = 685.0
+margin_bottom = 476.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+custom_constants/separation = 50
+
+[node name="Label" type="Label" parent="PauseMenu/VBoxContainer"]
+margin_right = 571.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 1336, -12 )
+custom_fonts/font = SubResource( 3 )
+text = "PAUSED"
+align = 1
+
+[node name="Label2" type="Label" parent="PauseMenu/VBoxContainer"]
+margin_top = 90.0
+margin_right = 571.0
+margin_bottom = 153.0
+rect_pivot_offset = Vector2( 1336, -12 )
+custom_fonts/font = SubResource( 4 )
+text = "Press \"E\" to return to Main Menu
+Press \"P\" to resume"
+align = 1
+
+[node name="Black Screen" type="TextureRect" parent="."]
+self_modulate = Color( 0, 0, 0, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 5 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

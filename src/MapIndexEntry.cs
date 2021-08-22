@@ -55,12 +55,17 @@ public class MapIndexEntry : Node2D
         //Spots
         foreach (InterestLocation n in GetChild(4).GetChildren())
         {
-            //TODO: Random chance of adding a "Red Herring" --Clue with nothing there
-            /*if (n.inUse)
-            {
-                spots.Add(n);
-            }*/
             spots.Add(n);
+        }
+        b = spots.Count();
+        InterestLocation tempLoc;
+        while (b > 1)
+        {
+            b--;
+            int k = rng.Next(b + 1);
+            tempLoc = spots[k];
+            spots[k] = spots[b];
+            spots[b] = tempLoc;
         }
     }
 }

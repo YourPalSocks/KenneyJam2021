@@ -14,6 +14,10 @@ config/name="KenneyJam2021"
 run/main_scene="res://Scenes/Title Screen.tscn"
 config/icon="res://KenneyJamLogo.png"
 
+[autoload]
+
+StatsObserver="*res://Scenes/StatsObserver.tscn"
+
 [debug]
 
 settings/fps/force_fps=15
@@ -64,6 +68,11 @@ Interact={
 "Doctor Move"={
 "deadzone": 0.5,
 "events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+Pause={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":80,"unicode":0,"echo":false,"script":null)
  ]
 }
 
