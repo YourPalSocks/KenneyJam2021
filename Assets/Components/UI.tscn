@@ -8,12 +8,11 @@
 [ext_resource path="res://ESTROG__.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://PixelOperator.ttf" type="DynamicFontData" id=7]
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=1]
 size = 24
 font_data = ExtResource( 7 )
 
-[sub_resource type="Animation" id=1]
-resource_name = "Fade Out"
+[sub_resource type="Animation" id=2]
 length = 1.3
 tracks/0/type = "value"
 tracks/0/path = NodePath("Black Screen:self_modulate")
@@ -28,11 +27,11 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=3]
 length = 1.2
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Warning Icon:visible")
+tracks/0/path = NodePath("Player Info/Warning Icon:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -44,11 +43,11 @@ tracks/0/keys = {
 "values": [ true, false, true, false ]
 }
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=4]
 size = 48
 font_data = ExtResource( 6 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=5]
 size = 35
 font_data = ExtResource( 6 )
 
@@ -61,8 +60,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Face" type="TextureRect" parent="."]
+[node name="Player Info" type="Control" parent="."]
 modulate = Color( 1, 1, 1, 0.572549 )
+anchor_right = 0.38
+anchor_bottom = 0.121
+margin_right = -3.05176e-05
+margin_bottom = -0.800003
+mouse_filter = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Face" type="TextureRect" parent="Player Info"]
 margin_left = 8.0
 margin_top = 16.0
 margin_right = 72.0
@@ -73,8 +82,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Bar" type="TextureRect" parent="."]
-modulate = Color( 1, 1, 1, 0.572549 )
+[node name="Bar" type="TextureRect" parent="Player Info"]
 margin_left = 80.0
 margin_top = 32.0
 margin_right = 248.0
@@ -86,7 +94,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Warning Icon" type="TextureRect" parent="."]
+[node name="Warning Icon" type="TextureRect" parent="Player Info"]
 margin_left = 248.0
 margin_top = 32.0
 margin_right = 288.0
@@ -103,7 +111,7 @@ margin_left = 80.0
 margin_top = 72.0
 margin_right = 240.0
 margin_bottom = 97.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 1 )
 text = "Doctor Monroe"
 uppercase = true
 __meta__ = {
@@ -116,7 +124,7 @@ anchor_left = 0.78
 anchor_right = 1.0
 anchor_bottom = 0.61875
 margin_bottom = 1.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 1 )
 text = "[EVIDENCE]"
 align = 1
 autowrap = true
@@ -127,8 +135,8 @@ __meta__ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 pause_mode = 2
-"anims/Fade Out" = SubResource( 1 )
-"anims/Warning Icon" = SubResource( 2 )
+"anims/Fade Out" = SubResource( 2 )
+"anims/Warning Icon" = SubResource( 3 )
 
 [node name="PauseMenu" type="MarginContainer" parent="."]
 visible = false
@@ -158,7 +166,7 @@ custom_constants/separation = 50
 margin_right = 571.0
 margin_bottom = 40.0
 rect_pivot_offset = Vector2( 1336, -12 )
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 text = "PAUSED"
 align = 1
 
@@ -167,7 +175,7 @@ margin_top = 90.0
 margin_right = 571.0
 margin_bottom = 153.0
 rect_pivot_offset = Vector2( 1336, -12 )
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 text = "Press \"E\" to return to Main Menu
 Press \"P\" to resume"
 align = 1
@@ -182,4 +190,5 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[connection signal="mouse_entered" from="Player Info" to="." method="_on_Player_Info_mouse_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

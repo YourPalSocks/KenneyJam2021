@@ -73,14 +73,14 @@ public class NPC : KinematicBody2D
                 //Casual remarks
                 dialogue.createDialogueOption(8, 9, "", "", DIALOGUE_TAG.CASUAL, "");
                 dialogue.createDialogueOption(9, 10, "", "", DIALOGUE_TAG.CASUAL, "");
-                dialogue.createDialogueOption(10, 11, "", gameManager.getRandomVillager(name), DIALOGUE_TAG.CASUAL, "");
+                dialogue.createDialogueOption(10, 11, "", gameManager.getRandomVillager(this), DIALOGUE_TAG.CASUAL, "");
                 //Interrogation remarks
-                dialogue.createDialogueOption(12, 13, "", gameManager.getRandomVillager(name), DIALOGUE_TAG.INTERROGATION, "");
-                dialogue.createDialogueOption(13, 14, "", gameManager.getRandomVillager(name), DIALOGUE_TAG.INTERROGATION, "");
+                dialogue.createDialogueOption(12, 13, "", gameManager.getRandomVillager(this), DIALOGUE_TAG.INTERROGATION, "");
+                dialogue.createDialogueOption(13, 14, "", gameManager.getRandomVillager(this), DIALOGUE_TAG.INTERROGATION, "");
                 break;
 
             case VILLAGER_TYPE.Intuit:
-                string target = gameManager.getRandomVillager(name);
+                string target = gameManager.getRandomVillager(this);
                 //Casual remarks
                 dialogue.createDialogueOption(17, 18, "", target, DIALOGUE_TAG.CASUAL, mArea.descriptor);
                 dialogue.createDialogueOption(18, 19, "", target, DIALOGUE_TAG.CASUAL, mArea.descriptor);
@@ -92,7 +92,7 @@ public class NPC : KinematicBody2D
                 break;
 
             case VILLAGER_TYPE.Instigator:
-                target = gameManager.getRandomVillager(name);
+                target = gameManager.getRandomVillager(this);
                 //Casual remarks
                 dialogue.createDialogueOption(35, 36, "", target, DIALOGUE_TAG.CASUAL, mArea.descriptor);
                 dialogue.createDialogueOption(36, 37, "", target, DIALOGUE_TAG.CASUAL, mArea.descriptor);
@@ -116,7 +116,7 @@ public class NPC : KinematicBody2D
             case VILLAGER_TYPE.Clueless:
                 //Casual remarks
                 dialogue.createDialogueOption(44, 45, "", "", DIALOGUE_TAG.CASUAL, "");
-                dialogue.createDialogueOption(45, 46, "", gameManager.getRandomVillager(name), DIALOGUE_TAG.CASUAL, mArea.descriptor);
+                dialogue.createDialogueOption(45, 46, "", gameManager.getRandomVillager(this), DIALOGUE_TAG.CASUAL, mArea.descriptor);
                 dialogue.createDialogueOption(46, 47, "", "", DIALOGUE_TAG.CASUAL, "");
                 //Interrogation remarks
                 dialogue.createDialogueOption(48, 49, "", "", DIALOGUE_TAG.INTERROGATION, "");

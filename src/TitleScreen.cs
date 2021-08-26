@@ -12,6 +12,7 @@ public class TitleScreen : Node
     public override void _Ready()
     {
         blackScreen = GetNode<TextureRect>("CanvasLayer/Black Screen");
+        ((StatsObserver)GetTree().Root.GetNode<StatsObserver>("StatsObserver")).clear();
     }
 
     public override void _Process(float delta)

@@ -131,7 +131,7 @@ public class GameManager : Node2D
     public void resetDecayTimer()
     {
         decayTimer.Stop();
-        decayTimer.WaitTime = 20;
+        decayTimer.WaitTime = 30;
         decayTimer.Start();
     }
 
@@ -304,12 +304,23 @@ public class GameManager : Node2D
     /*
      * I know it says random but there is actually a 2/10 chance that this guess is the Bug
      */
-    public string getRandomVillager(string name)
+    public string getRandomVillager(NPC me)
     {
         string toRet = "";
         do
         {
             int i = rand.RandiRange(0, 10);
+            //Slightly higher chance if intuit
+            if (me.getPersonality() == VILLAGER_TYPE.Intuit)
+            {
+                i = rand.RandiRange(0, 8); //20% chance
+            }
+            else if (me.getPersonality() == VILLAGER_TYPE.Instigator) //Even higher if instigator
+            {
+                i = rand.RandiRange(0, 4); //50% chance
+            }
+
+            //Actually rat out a bug
             if (i <= 1)
             {
                 //Return a bug
@@ -325,7 +336,7 @@ public class GameManager : Node2D
             {
                 toRet = npcs[rand.RandiRange(0, npcs.Count - 1)].getName();
             }
-        } while (toRet.Equals(name) == true); //Because villagers aren't going to rat themselves out
+        } while (toRet.Equals(me.ToString()) == true); //Because villagers aren't going to rat themselves out
         return toRet;
     }
 
@@ -451,6 +462,8 @@ public class GameManager : Node2D
             GD.Print("NEST SPAWNED");
             int i = rand.RandiRange(0, nestSites.Count - 1);
             Spawner sInst = (Spawner)nestPref.Instance();
+            //Change destroyable texture
+            sInst.Modulate = new Color(0,0,1);
             AddChild(sInst);
 
             sInst.Position = nestSites[i];

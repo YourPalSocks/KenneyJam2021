@@ -66,6 +66,8 @@ public class Player : KinematicBody2D
         gun.Visible = false;
 
         curHealth = HEALTH_MAX;
+
+        curDoctor = DOCTORS.Monroe;
     }
 
     public override void _PhysicsProcess(float delta)
@@ -147,6 +149,8 @@ public class Player : KinematicBody2D
 
     public void switchDoctors(int nHealth)
     {
+        axe.Visible = false;
+        gun.Visible = false;
         //Enable/Disable certain things like gun and axe
         switch (curDoctor)
         {

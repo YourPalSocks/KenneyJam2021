@@ -1,19 +1,19 @@
 Milling tools
-Stone chisel
-Sturdy hammer
-Leather working kit
-Used whetstone
-Stiching kit
+Stonemason's Chisel
+Blacksmith hammer
+Armorer's tools
+Knight's whetstone
+Tailor tools
 Carpentry tools
 Worn plow
 Meat carving knife
 Goldsmith pliers
-Jewelry sizer
+Metalsmith's sizer
 Horse feed
-Training sword
-Nobleman's agenda
+Squire's training sword
+Page's agenda
 Saw covered in silver dust
-Paper inventory
+Grocer's inventory
 Spare drape cloth
 Fox fur hairs
 Fishing lures

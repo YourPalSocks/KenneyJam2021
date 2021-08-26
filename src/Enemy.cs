@@ -35,7 +35,7 @@ public class Enemy : NPC
     }
 
     public override void onInteraction() { } //Empty because we don't want interactions to occur
-    public override void onSpawn(string n, Color c, VILLAGER_TYPE type, InterestLocation area)  { } //Still empty for same reason
+    public override void onSpawn(string n, Color c, VILLAGER_TYPE type, InterestLocation area)  { retreatPoint = GlobalPosition; } //Still empty for same reason
 
     public void onSpawn(bool b, VILLAGER_TYPE g, Vector2 startPos)
     {
@@ -85,15 +85,21 @@ public class Enemy : NPC
         {
             //Check if distance is too close
             Vector2 dis = gameManager.getPlayer().Position - Position;
-            if (dis.Length() >= 100f)
+            //Change retreat location if distance to it is too short
+            if ((retreatPoint - Position).Length() <= 5f)
+            {
+                retreatPoint = getPointInRadius();
+            }
+
+            if (dis.Length() >= 70f)
             {
                 //Move towards player
                 MoveAndCollide(dis * delta);
             }
-            else if(dis.Length() < 95f)
+            else if(dis.Length() < 65f)
             {
                 //Move away from player
-                MoveAndCollide((retreatPoint - Position) * delta * 0.15f); //Move slower this way
+                MoveAndCollide((retreatPoint - Position) * delta * 0.25f); //Move slower this way
             }
         }
     }
@@ -140,5 +146,15 @@ public class Enemy : NPC
         GD.Randomize();
         t.WaitTime = GD.Randi() % 1.8f + 1.4f;
         t.Start();
+    }
+
+    public Vector2 getPointInRadius()
+    {
+        RandomNumberGenerator rand = new RandomNumberGenerator();
+        rand.Randomize();
+        int x = rand.RandiRange(-100, 100);
+        int y = rand.RandiRange(-100, 100);
+
+        return Position + new Vector2(x, y);
     }
 }

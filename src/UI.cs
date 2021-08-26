@@ -22,13 +22,13 @@ public class UI : Control
     public override void _Ready()
     {
         //Get componenets
-        face = GetNode<TextureRect>("Face");
-        blightBar = GetNode<TextureRect>("Bar");
-        warningIcon = GetNode<TextureRect>("Warning Icon");
+        face = GetNode<TextureRect>("Player Info/Face");
+        blightBar = GetNode<TextureRect>("Player Info/Bar");
+        warningIcon = GetNode<TextureRect>("Player Info/Warning Icon");
         anim = GetNode<AnimationPlayer>("AnimationPlayer");
         pauseMenu = GetNode<Control>("PauseMenu");
         pauseMenu.Visible = false;
-        doctorLabel = GetNode<Label>("Doctor Name");
+        doctorLabel = GetNode<Label>("Player Info/Doctor Name");
         evidenceList = GetNode<Label>("Evidence List");
         evidenceList.Text = "";
 
@@ -154,5 +154,11 @@ public class UI : Control
             GetTree().Paused = false;
             GetTree().ChangeScene("res://Scenes/EndScreen.tscn");
         }
+    }
+
+    //Signals to increase/decrease opacity
+    public void _on_Player_Info_mouse_entered()
+    {
+        GD.Print("Hello!");
     }
 }
