@@ -58,6 +58,15 @@ public class DialogueBox : TextureRect
 
         if (isTyping)
         {
+            //Check if theres at least 2 characters, then check for interaction
+            if (curChar >= 2 && Input.IsActionJustPressed("Interact"))
+            {
+                //Print out whole line and stop typing
+                textArea.Text = linesToRead[curLine];
+                isTyping = false;
+                return;
+            }
+
             //Check if done
             if (curChar < linesToRead[curLine].ToCharArray().Length)
             {

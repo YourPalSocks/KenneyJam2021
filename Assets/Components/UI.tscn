@@ -62,6 +62,7 @@ __meta__ = {
 
 [node name="Player Info" type="Control" parent="."]
 modulate = Color( 1, 1, 1, 0.572549 )
+self_modulate = Color( 1, 1, 1, 0.670588 )
 anchor_right = 0.38
 anchor_bottom = 0.121
 margin_right = -3.05176e-05
@@ -105,8 +106,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Doctor Name" type="Label" parent="."]
-self_modulate = Color( 1, 1, 1, 0.572549 )
+[node name="Doctor Name" type="Label" parent="Player Info"]
+self_modulate = Color( 1, 1, 1, 0.670588 )
 margin_left = 80.0
 margin_top = 72.0
 margin_right = 240.0
@@ -119,7 +120,7 @@ __meta__ = {
 }
 
 [node name="Evidence List" type="Label" parent="."]
-self_modulate = Color( 1, 1, 1, 0.572549 )
+self_modulate = Color( 1, 1, 1, 0.670588 )
 anchor_left = 0.78
 anchor_right = 1.0
 anchor_bottom = 0.61875
